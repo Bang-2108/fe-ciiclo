@@ -3,13 +3,10 @@ export interface User {
   name: string;
   email: string;
 }
-
 export interface LoginResponse {
- message: string;
-  data: {
-    user: User;
-    token: string;
-  };
+  message: string;
+  token: string; 
+  user: User;    
 }
 
 export interface RegisterRequest {

@@ -8,11 +8,11 @@ export const useAuthStore = defineStore('auth', {
     token: localStorage.getItem('token') || null,
   }),
   actions: {
-    async login(data: LoginRequest) {
+   async login(data: LoginRequest) {
       const res = await loginApi(data);
-      this.user = res.data.user;
-      this.token = res.data.token;
-      localStorage.setItem('token', res.data.token);
+      this.user = res.user; 
+      this.token = res.token;
+      localStorage.setItem('token', res.token);
     },
     async register(data: RegisterRequest) {
       await registerApi(data);

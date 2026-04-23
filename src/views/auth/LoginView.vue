@@ -1,11 +1,23 @@
 <template>
   <div class="auth-view">
     <h2>Chào mừng trở lại!</h2>
+    
     <form @submit.prevent="handleLogin">
-      <input v-model="form.email" type="email" placeholder="Email" required />
-      <input v-model="form.password" type="password" placeholder="Mật khẩu" required />
+      <input 
+        v-model="form.email" 
+        type="email" 
+        placeholder="Email" 
+        required 
+      />
+      <input 
+        v-model="form.password" 
+        type="password" 
+        placeholder="Mật khẩu" 
+        required 
+      />
       <button type="submit" class="btn-pastel">Đăng nhập</button>
     </form>
+    
     <p>Chưa có tài khoản? <router-link to="/auth/register">Đăng ký ngay</router-link></p>
   </div>
 </template>
@@ -17,23 +29,37 @@ import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
 const router = useRouter();
-const form = ref({ email: '', password: '' });
+
+const form = ref({ 
+  email: '', 
+  password: '' 
+});
 
 const handleLogin = async () => {
   try {
     await authStore.login(form.value);
-    router.push('/home');
-  } catch (error) {
-    alert('Đăng nhập thất bại, kiểm tra lại thông tin!');
+    router.push('/home'); 
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || 'Đăng nhập thất bại!';
+    alert(errorMessage);
   }
 };
 </script>
 
 <style scoped>
-.auth-view { padding: 40px; text-align: center; }
-input { 
-  display: block; width: 100%; padding: 15px; margin-bottom: 20px;
-  border: 2px solid var(--color-border); border-radius: var(--radius-md);
+.auth-view { 
+  padding: 40px; 
+  text-align: center; 
 }
-button { width: 100%; }
+input { 
+  display: block; 
+  width: 100%; 
+  padding: 15px; 
+  margin-bottom: 20px;
+  border: 2px solid var(--color-border); 
+  border-radius: var(--radius-md); 
+}
+button { 
+  width: 100%; 
+}
 </style>
