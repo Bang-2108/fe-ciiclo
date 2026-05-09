@@ -96,7 +96,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 
-import { useProfileStore } from '@/stores/profile';
+import { useProfileStore } from '@/stores/home';
 
 const profileStore = useProfileStore();
 
