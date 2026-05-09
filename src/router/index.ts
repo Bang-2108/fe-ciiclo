@@ -1,9 +1,5 @@
 // src/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router';
-import AuthLayout from '@/layouts/AuthLayout.vue';
-import Login from '@/views/auth/LoginView.vue';
-import Register from '@/views/auth/RegisterView.vue';
-import HomeView from '@/views/HomeView.vue';
 
 const routes = [
   {
