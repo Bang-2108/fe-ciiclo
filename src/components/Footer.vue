@@ -12,7 +12,8 @@ const name = "Băng Băng";
 
 <style scoped>
 .footer {
-  padding: 40px 0;
+  padding: 20px 0;
+  margin-top: 40px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 .footer__copy {
