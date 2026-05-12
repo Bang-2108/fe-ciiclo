@@ -1,26 +1,36 @@
 import { defineStore } from 'pinia';
 import { loginApi, registerApi } from '@/services/auth.service';
-import type { LoginRequest, RegisterRequest } from '@/types/auth';
+import type { User, LoginRequest, RegisterRequest } from '@/types/auth';
+interface AuthState {
+  user: User | null;
+  token: string | null;
+}
 
 export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    user: null as any,
+  state: (): AuthState => ({
+    user: null,
     token: localStorage.getItem('token') || null,
   }),
+
+  getters: {
+    isAuthenticated: (state) => !!state.token,
+  },
 
   actions: {
     async login(data: LoginRequest) {
       try {
         const res = await loginApi(data);
+        const { token, user } = res.data;
 
-        this.user = res.user;
-        this.token = res.token;
-
-        localStorage.setItem('token', res.token);
+        if (!token) throw new Error('Token not found');
+        localStorage.setItem('token', token);
+        this.token = token;
+        this.user = user;
 
         return res;
       } catch (error) {
         console.error('Store login error:', error);
+        this.logout();
         throw error;
       }
     },
@@ -38,7 +48,6 @@ export const useAuthStore = defineStore('auth', {
     logout() {
       this.user = null;
       this.token = null;
-
       localStorage.removeItem('token');
     },
   },

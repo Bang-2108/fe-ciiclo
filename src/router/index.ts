@@ -1,20 +1,19 @@
-// src/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router';
+import { useAuthStore } from '@/stores/auth.store';
 
 const routes = [
-  {
-    path: '/',
-    redirect: '/auth/login'
-  },
+  { path: '/', redirect: '/home' },
   {
     path: '/auth/login',
     name: 'login',
-    component: () => import('../views/auth/LoginView.vue')
+    component: () => import('../views/auth/LoginView.vue'),
+    meta: { requiresAuth: false }
   },
   {
-    path: '/auth/register', 
+    path: '/auth/register',
     name: 'register',
-    component: () => import('../views/auth/RegisterView.vue')
+    component: () => import('../views/auth/RegisterView.vue'),
+    meta: { requiresAuth: false }
   },
   {
     path: '/home',
@@ -27,14 +26,17 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 });
-
 router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
   const token = localStorage.getItem('token');
   if (to.meta.requiresAuth && !token) {
-    next('/auth/login');
-  } else {
-    next();
+    return next('/auth/login');
   }
+  if (token && (to.name === 'login' || to.name === 'register')) {
+    if (!authStore.token) authStore.token = token;
+    return next('/home');
+  }
+  next();
 });
 
 export default router;
