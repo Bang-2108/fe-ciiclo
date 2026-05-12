@@ -3,10 +3,16 @@ export interface User {
   name: string;
   email: string;
 }
+
+export interface LoginData {
+  token: string;
+  user: User;
+}
+
 export interface LoginResponse {
+  success: boolean;
   message: string;
-  token: string; 
-  user: User;    
+  data: LoginData;
 }
 
 export interface RegisterRequest {

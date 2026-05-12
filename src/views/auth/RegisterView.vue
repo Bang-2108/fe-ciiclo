@@ -1,91 +1,77 @@
-# `src/views/auth/RegisterView.vue`
 <template>
   <AuthLayout
     title="Tạo tài khoản "
     highlight="mới!"
     description="Đăng ký để bắt đầu hành trình khám phá những dự án tuyệt vời."
   >
-    <div class="auth-form-wrapper">
-      <div class="auth-header">
-        <h2>Đăng ký</h2>
-        <p>Tạo tài khoản để tiếp tục</p>
+    <div class="w-full max-w-[420px] flex flex-col justify-center">
+      <div class="text-center mb-[2px]">
+        <h2 class="text-[30px] md:text-[38px] font-bold mb-[2px] text-white">Đăng ký</h2>
+        <p class="text-[15px] text-[var(--color-text-muted)]">Tạo tài khoản để tiếp tục</p>
       </div>
-      <form
-        @submit.prevent="handleRegister"
-        class="auth-form"
-      >
-        <!-- NAME -->
-        <div class="input-group">
-          <label>Họ và tên</label>
+
+      <form @submit.prevent="handleRegister" class="flex flex-col gap-[8px]">
+        <div class="flex flex-col gap-[5px]">
+          <label class="text-[15px] font-semibold text-white">Họ và tên</label>
           <input
             v-model="form.name"
             type="text"
-            placeholder="Nhập tên của bạn"
-            autocomplete="name"
+            class="w-full px-[18px] py-2 rounded-[16px] border border-white/10 bg-white/5 text-white text-[15px] outline-none transition-all hover:border-white/20 focus:border-[var(--color-primary)]"
             required
           />
         </div>
-        <div class="input-group">
-          <label>Email</label>
+
+        <div class="flex flex-col gap-[5px]">
+          <label class="text-[15px] font-semibold text-white">Email</label>
           <input
             v-model="form.email"
             type="email"
-            placeholder="Nhập email của bạn"
-            autocomplete="email"
+            class="w-full px-[18px] py-2 rounded-[16px] border border-white/10 bg-white/5 text-white text-[15px] outline-none transition-all focus:border-[var(--color-primary)]"
             required
           />
-          <p
-            v-if="errors.email"
-            class="error-text"
-          >
-            {{ errors.email[0] }}
-          </p>
+          <p v-if="errors.email" class="text-[#ff8c94] text-[13px] -mt-2.5">{{ errors.email[0] }}</p>
         </div>
-        <div class="input-group">
-          <label>Mật khẩu</label>
+
+        <div class="flex flex-col gap-[5px]">
+          <label class="text-[15px] font-semibold text-white">Mật khẩu</label>
           <input
             v-model="form.password"
             type="password"
-            placeholder="Nhập mật khẩu"
-            autocomplete="new-password"
+            class="w-full px-[18px] py-2 rounded-[16px] border border-white/10 bg-white/5 text-white text-[15px] outline-none transition-all focus:border-[var(--color-primary)]"
             required
           />
-          <p
-            v-if="errors.password"
-            class="error-text"
-          >
-            {{ errors.password[0] }}
-          </p>
+          <p v-if="errors.password" class="text-[#ff8c94] text-[13px] -mt-2.5">{{ errors.password[0] }}</p>
         </div>
-        <div class="input-group">
-          <label>Nhập lại mật khẩu</label>
 
+        <div class="flex flex-col gap-[5px]">
+          <label class="text-[15px] font-semibold text-white">Nhập lại mật khẩu</label>
           <input
             v-model="form.password_confirmation"
             type="password"
-            placeholder="Nhập lại mật khẩu"
-            autocomplete="new-password"
+            class="w-full px-[18px] py-2 rounded-[16px] border border-white/10 bg-white/5 text-white text-[15px] outline-none transition-all focus:border-[var(--color-primary)]"
             required
           />
         </div>
+
         <button
           type="submit"
-          class="btn-login"
           :disabled="loading"
+          class="mt-[10px] py-3 rounded-[18px] bg-gradient-to-r from-[#ff85bb] to-[#ff6fae] text-white font-bold text-[16px] transition-all hover:-translate-y-[3px] hover:shadow-[0_10px_25px_rgba(255,133,187,0.35)] active:scale-[0.98]"
         >
           {{ loading ? 'Đang đăng ký...' : 'Đăng ký' }}
         </button>
-
       </form>
-      <p class="register-text">
+
+      <p class="mt-8 text-center text-[15px] text-[var(--color-text-muted)]">
         Đã có tài khoản?
-        <router-link to="/auth/login">
+        <router-link to="/auth/login" class="text-[var(--color-primary)] font-bold hover:underline transition-all">
           Đăng nhập
         </router-link>
       </p>
     </div>
   </AuthLayout>
 </template>
+
 
 <script setup lang="ts">
 import { ref } from 'vue';
