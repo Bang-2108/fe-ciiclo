@@ -27,6 +27,21 @@ const routes = [
       requiresAuth: true,
     },
   },
+
+  {
+  path: '/admin',
+  name: 'admin',
+  component: () => import('@/views/admin/AdminView.vue'),
+  meta: { requiresAuth: true },
+  children: [
+    {
+      path: 'skills',
+      name: 'admin-skills',
+      component: () => import('@/views/admin/SkillManagementView.vue'),
+    },
+  ]
+},
+
 ];
 
 const router = createRouter({
