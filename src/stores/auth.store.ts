@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
-import { loginApi, registerApi } from '@/services/auth.service';
-import type { User, LoginRequest, RegisterRequest } from '@/types/auth';
+import { loginApi, logoutApi } from '@/services/auth.service';
+import type { User, LoginRequest } from '@/types/auth';
+
 interface AuthState {
   user: User | null;
   token: string | null;
@@ -35,20 +36,23 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    async register(data: RegisterRequest) {
-      try {
-        const res = await registerApi(data);
-        return res;
-      } catch (error) {
-        console.error('Store register error:', error);
-        throw error;
-      }
-    },
+   async logout(redirect = true) {
+  try {
+    if (this.token) {
+      await logoutApi();
+    }
+  } catch (error) {
+    console.error('Logout API error:', error);
+  } finally {
+    this.user = null;
+    this.token = null;
 
-    logout() {
-      this.user = null;
-      this.token = null;
-      localStorage.removeItem('token');
-    },
+    localStorage.removeItem('token');
+
+    if (redirect) {
+      window.location.href = '/auth/login';
+    }
+  }
+}
   },
 });
