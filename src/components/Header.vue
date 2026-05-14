@@ -7,7 +7,7 @@
 
       <nav class="hidden lg:block ml-10">
         <ul class="flex items-center gap-8">
-          <li v-for="item in menuItems" :key="item.path">
+          <li v-for="item in filteredMenuItems" :key="item.path">
             <router-link :to="item.path" 
               class="text-sm font-medium transition-colors hover:text-[#ff85bb]"
               :class="[route.path === item.path ? 'text-[#ff85bb]' : 'text-gray-300']">
@@ -27,9 +27,9 @@
         <div class="h-6 w-[1px] bg-white/20"></div>
 
         <template v-if="authStore.isAuthenticated">
-          <div class="flex items-center gap-2 text-sm text-gray-300">
-            <i class="bi bi-person"></i>
-            <span>Zoãn Thị Băng</span>
+          <div class="flex items-center gap-2 text-sm text-gray-300 mr-2">
+            <i class="bi bi-person-circle"></i>
+            <span>Admin</span>
           </div>
 
           <button @click="handleLogout" class="bg-[#ff0000] hover:bg-red-600 text-white px-5 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all">
@@ -47,19 +47,25 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'; // Import thêm computed
 import { useRoute } from 'vue-router';
-import { useAuthStore } from '@/stores/auth.store'; // Import store
+import { useAuthStore } from '@/stores/auth.store';
 
 const route = useRoute();
-const authStore = useAuthStore(); // Sử dụng store
+const authStore = useAuthStore();
 
-const menuItems = [
-  { name: 'Home', path: '/home' },
-  { name: 'About', path: '/about' },
-  { name: 'Skills', path: '/skills' },
-  { name: 'Projects', path: '/project' },
-  { name: 'Contact', path: '/contact' }
-];
+const filteredMenuItems = computed(() => {
+  return [
+    { name: 'Home', path: '/home' },
+    { name: 'About', path: '/about' },
+    { 
+      name: 'Skills', 
+      path: authStore.isAuthenticated ? '/admin/skills' : '/skills' 
+    },
+    { name: 'Projects', path: '/project' },
+    { name: 'Contact', path: '/contact' }
+  ];
+});
 
 const handleLogout = async () => {
   if (confirm('Bạn có chắc chắn muốn đăng xuất không?')) {
