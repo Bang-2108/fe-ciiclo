@@ -41,13 +41,6 @@
           {{ loading ? 'Đang đăng nhập...' : 'Đăng nhập' }}
         </button>
       </form>
-
-      <p class="mt-6 text-center text-[15px] text-[var(--color-text-muted)]">
-        Chưa có tài khoản?
-        <router-link to="/auth/register" class="text-[var(--color-primary)] font-bold hover:underline transition-all">
-          Đăng ký ngay
-        </router-link>
-      </p>
     </div>
   </AuthLayout>
 </template>

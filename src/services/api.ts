@@ -8,9 +8,11 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => Promise.reject(error)
@@ -18,14 +20,20 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+
+  async (error) => {
     if (error.response?.status === 401) {
       const authStore = useAuthStore();
-      authStore.logout();
-      if (window.location.pathname !== '/auth/login') {
+      const isAdminRoute =
+        window.location.pathname.startsWith('/admin');
+
+      if (isAdminRoute) {
+        await authStore.logout(false);
+
         window.location.href = '/auth/login';
       }
     }
+
     return Promise.reject(error);
   }
 );

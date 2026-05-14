@@ -26,15 +26,21 @@
         
         <div class="h-6 w-[1px] bg-white/20"></div>
 
-        <div class="flex items-center gap-2 text-sm text-gray-300">
-          <i class="bi bi-person"></i>
-          <span>Zoãn Thị Băng</span>
-        </div>
+        <template v-if="authStore.isAuthenticated">
+          <div class="flex items-center gap-2 text-sm text-gray-300">
+            <i class="bi bi-person"></i>
+            <span>Zoãn Thị Băng</span>
+          </div>
 
-        <button @click="handleLogout" class="bg-[#ff0000] hover:bg-red-600 text-white px-5 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all">
-          <i class="bi bi-box-arrow-right"></i>
-          Đăng xuất
-        </button>
+          <button @click="handleLogout" class="bg-[#ff0000] hover:bg-red-600 text-white px-5 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all">
+            <i class="bi bi-box-arrow-right"></i>
+            Đăng xuất
+          </button>
+        </template>
+
+        <router-link v-else to="/auth/login" class="text-gray-400 hover:text-white text-sm font-medium">
+          Admin Login
+        </router-link>
       </div>
     </div>
   </header>
@@ -42,7 +48,11 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
+import { useAuthStore } from '@/stores/auth.store'; // Import store
+
 const route = useRoute();
+const authStore = useAuthStore(); // Sử dụng store
+
 const menuItems = [
   { name: 'Home', path: '/home' },
   { name: 'About', path: '/about' },
@@ -50,4 +60,10 @@ const menuItems = [
   { name: 'Projects', path: '/project' },
   { name: 'Contact', path: '/contact' }
 ];
+
+const handleLogout = async () => {
+  if (confirm('Bạn có chắc chắn muốn đăng xuất không?')) {
+    await authStore.logout();
+  }
+};
 </script>
