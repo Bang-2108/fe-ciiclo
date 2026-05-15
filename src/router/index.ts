@@ -33,6 +33,11 @@ const routes = [
         name: 'admin-skills',
         component: () => import('@/views/admin/SkillManagementView.vue'),
       },
+      {
+        path: 'profile',
+        name: 'admin-profile',
+        component: () => import('@/views/admin/ProfileManagementView.vue'),
+      }
     ]
   },
 ];
