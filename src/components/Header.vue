@@ -4,7 +4,6 @@
       <router-link to="/home" class="text-white text-xl font-semibold tracking-tight">
         Zoan Thi Bang
       </router-link>
-
       <nav class="hidden lg:block ml-10">
         <ul class="flex items-center gap-8">
           <li v-for="item in filteredMenuItems" :key="item.path">
@@ -16,7 +15,6 @@
           </li>
         </ul>
       </nav>
-
       <div class="flex items-center gap-6">
         <div class="flex items-center gap-4 text-lg text-gray-400">
           <i class="bi bi-github cursor-pointer hover:text-white"></i>
@@ -31,13 +29,11 @@
             <i class="bi bi-person-circle"></i>
             <span>Admin</span>
           </div>
-
           <button @click="handleLogout" class="bg-[#ff0000] hover:bg-red-600 text-white px-5 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all">
             <i class="bi bi-box-arrow-right"></i>
             Đăng xuất
           </button>
         </template>
-
         <router-link v-else to="/auth/login" class="text-gray-400 hover:text-white text-sm font-medium">
           Admin Login
         </router-link>
@@ -47,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'; // Import thêm computed
+import { computed } from 'vue'; 
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '@/stores/auth.store';
 
@@ -55,16 +51,21 @@ const route = useRoute();
 const authStore = useAuthStore();
 
 const filteredMenuItems = computed(() => {
-  return [
+  const publicMenu = [
     { name: 'Home', path: '/home' },
     { name: 'About', path: '/about' },
-    { 
-      name: 'Skills', 
-      path: authStore.isAuthenticated ? '/admin/skills' : '/skills' 
-    },
+    { name: 'Skills', path: '/skills' },
     { name: 'Projects', path: '/project' },
-    { name: 'Contact', path: '/contact' }
   ];
+
+  if (authStore.isAuthenticated) {
+    return [
+      { name: 'Home', path: '/home' }, 
+      { name: 'Profile', path: '/admin/profile' }, 
+      { name: 'Skills', path: '/admin/skills' }, 
+    ];
+  }
+  return publicMenu;
 });
 
 const handleLogout = async () => {

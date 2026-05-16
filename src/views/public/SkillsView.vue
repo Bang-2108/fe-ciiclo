@@ -1,16 +1,10 @@
 <template>
   <div class="flex flex-col min-h-screen bg-[#0f172a]">
-    
-    <Header />
-
     <main class="flex-grow pt-24 pb-12 text-white">
       <div class="max-w-7xl mx-auto px-6">
         
         <div class="text-center mb-16">
           <h1 class="text-4xl font-bold mb-4">My <span class="text-[#ff71b8]">Skills</span></h1>
-          <p class="text-gray-400 max-w-2xl mx-auto italic">
-            "Học vấn là những gì còn lại sau khi người ta đã quên hết những gì đã học ở trường."
-          </p>
         </div>
 
         <div v-if="skillStore.loading" class="flex justify-center py-20">
@@ -48,19 +42,12 @@
         </div>
       </div>
     </main>
-
-    <Footer />
-
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useSkillStore } from '@/stores/skill.store';
-
-import Header from "@/components/Header.vue"
-import Footer from "@/components/Footer.vue"
-
 const skillStore = useSkillStore();
 
 onMounted(() => {
