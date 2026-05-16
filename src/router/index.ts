@@ -17,6 +17,12 @@ const routes = [
     component: () => import('@/views/public/SkillsView.vue'),
   },
   {
+    path: '/about',
+    name: 'about',
+    component: () => import('@/views/public/AboutView.vue') 
+  },
+  
+  {
     path: '/auth/login',
     name: 'login',
     component: () => import('@/views/auth/LoginView.vue'),
@@ -33,6 +39,11 @@ const routes = [
         name: 'admin-skills',
         component: () => import('@/views/admin/SkillManagementView.vue'),
       },
+      {
+        path: 'profile',
+        name: 'admin-profile',
+        component: () => import('@/views/admin/ProfileManagementView.vue'),
+      }
     ]
   },
 ];
