@@ -17,13 +17,17 @@
       </nav>
       <div class="flex items-center gap-6">
         <div class="flex items-center gap-4 text-lg text-gray-400">
-          <i class="bi bi-github cursor-pointer hover:text-white"></i>
-          <i class="bi bi-linkedin cursor-pointer hover:text-white"></i>
-          <i class="bi bi-envelope cursor-pointer hover:text-white"></i>
+          <a href="https://github.com/Bang-2108" target="_blank" rel="noopener noreferrer">
+            <i class="bi bi-github cursor-pointer hover:text-white"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/zo%C3%A3n-th%E1%BB%8B-b%C4%83ng-v135798642/" target="_blank" rel="noopener noreferrer">
+            <i class="bi bi-linkedin cursor-pointer hover:text-white"></i>
+          </a>
+          <a href="mailto:zoanthibang@gmail.com">
+            <i class="bi bi-envelope cursor-pointer hover:text-white"></i>
+          </a>
         </div>
-        
         <div class="h-6 w-[1px] bg-white/20"></div>
-
         <template v-if="authStore.isAuthenticated">
           <div class="flex items-center gap-2 text-sm text-gray-300 mr-2">
             <i class="bi bi-person-circle"></i>
