@@ -13,9 +13,7 @@ export const projectApi = {
     });
     return response.data.data;
   },
-
   update: async (id: number, data: FormData): Promise<Project> => {
-    data.append('_method', 'PUT');
     const response = await axiosInstance.post(`/admin/projects/${id}`, data, {
       headers: { 'Content-Type': 'multipart/form-data' }
     });

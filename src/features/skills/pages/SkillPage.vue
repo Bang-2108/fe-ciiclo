@@ -1,71 +1,63 @@
 <template>
-  <div class="p-6 bg-black text-white rounded-2xl border border-white/5">
-    <div class="flex justify-between items-center mb-8">
-      <h3 class="text-xl font-bold text-gray-300">Overview List</h3>
-
+  <div>
+    <div class="flex justify-end mb-6">
       <button
         @click="openModal()"
-        class="bg-[#ff71b8] hover:bg-[#ff5daa] px-5 py-2 rounded-xl font-bold transition-all shadow-lg shadow-[#ff71b8]/20 flex items-center text-sm"
+        class="bg-[#ff71b8] hover:bg-[#ff5daa] px-5 py-2.5 rounded-xl font-bold text-black transition-all shadow-lg shadow-[#ff71b8]/10 flex items-center text-sm"
       >
         <i class="bi bi-plus-lg mr-2"></i>
         Add Skill
       </button>
     </div>
-
-    <div class="bg-[#141f26]/40 rounded-2xl overflow-hidden border border-white/5">
+    <div class="bg-[#141f26]/40 rounded-3xl overflow-hidden border border-white/5 shadow-xl">
       <table class="w-full text-left border-collapse">
-        <thead class="bg-white/5 text-sm uppercase text-gray-400">
+        <thead class="bg-white/5 text-xs uppercase tracking-wider text-gray-400 border-b border-white/5">
           <tr>
-            <th class="px-6 py-4">Skill</th>
-            <th class="px-6 py-4">Category</th>
-            <th class="px-6 py-4">Proficiency</th>
-            <th class="px-6 py-4 text-center">Actions</th>
+            <th class="px-6 py-4.5">Skill</th>
+            <th class="px-6 py-4.5">Category</th>
+            <th class="px-6 py-4.5">Proficiency</th>
+            <th class="px-6 py-4.5 text-center">Actions</th>
           </tr>
         </thead>
-
         <tbody class="divide-y divide-white/5">
           <tr
             v-for="skill in skillStore.skills"
             :key="skill.id"
-            class="hover:bg-white/5 transition"
+            class="hover:bg-white/5 transition-colors"
           >
-            <td class="px-6 py-4 font-medium">
+            <td class="px-6 py-4.5 font-semibold text-white text-sm">
               {{ skill.name }}
             </td>
-
-            <td class="px-6 py-4">
+            <td class="px-6 py-4.5">
               <span
-                class="px-3 py-1 rounded-full text-xs bg-[#ff71b8]/10 text-[#ff71b8] border border-[#ff71b8]/20 capitalize"
+                class="px-3 py-1 rounded-full text-[11px] font-medium bg-[#ff71b8]/10 text-[#ff71b8] border border-[#ff71b8]/10 capitalize"
               >
                 {{ skill.category }}
               </span>
             </td>
-
-            <td class="px-6 py-4">
+            <td class="px-6 py-4.5">
               <div class="flex items-center gap-3">
-                <div class="flex-1 bg-gray-700 rounded-full h-1.5 max-w-[100px]">
+                <div class="flex-1 bg-white/5 border border-white/5 rounded-full h-2 max-w-[120px]">
                   <div
-                    class="bg-[#ff71b8] h-1.5 rounded-full"
+                    class="bg-[#ff71b8] h-full rounded-full shadow-[0_0_10px_rgba(255,113,184,0.3)]"
                     :style="{ width: skill.percentage + '%' }"
                   ></div>
                 </div>
-                <span class="text-xs text-gray-400">
+                <span class="text-xs font-semibold text-gray-400">
                   {{ skill.percentage }}%
                 </span>
               </div>
             </td>
-
-            <td class="px-6 py-4 flex justify-center gap-4">
+            <td class="px-6 py-4.5 flex justify-center gap-3">
               <button
                 @click="openModal(skill)"
-                class="text-yellow-400 hover:text-yellow-300 transition"
+                class="p-2 text-gray-400 hover:text-white bg-white/5 rounded-lg transition-colors"
               >
-                <i class="bi bi-pencil-square text-lg"></i>
+                <i class="bi bi-pencil-square"></i>
               </button>
-
               <button
                 @click="handleDelete(skill.id)"
-                class="text-red-400 hover:text-red-300 transition"
+                class="p-2 text-red-400 hover:text-red-300 bg-red-500/10 rounded-lg transition-colors"
               >
                 <i class="bi bi-trash text-lg"></i>
               </button>
@@ -74,7 +66,6 @@
         </tbody>
       </table>
     </div>
-
     <div
       v-if="isModalOpen"
       class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
@@ -85,7 +76,6 @@
         <h2 class="text-xl font-bold mb-6 text-[#ff71b8]">
           {{ isEdit ? 'Update' : 'Add New' }} Skill
         </h2>
-
         <form @submit.prevent="handleSubmit" class="space-y-5">
           <div>
             <label class="block text-sm text-gray-400 mb-2">Skill Name</label>
@@ -96,7 +86,6 @@
               required
             />
           </div>
-
           <div class="grid grid-cols-2 gap-4">
             <div class="relative dropdown-container">
               <label class="block text-sm text-gray-400 mb-2">Category</label>
@@ -112,7 +101,6 @@
                   :class="{ 'rotate-180': isDropdownOpen }"
                 ></i>
               </div>
-
               <ul
                 v-if="isDropdownOpen"
                 class="absolute w-full mt-2 bg-[#141f26] border border-white/10 rounded-xl overflow-hidden z-50 shadow-2xl"
@@ -128,7 +116,6 @@
                 </li>
               </ul>
             </div>
-
             <div>
               <label class="block text-sm text-gray-400 mb-2">Proficiency (%)</label>
               <input
@@ -141,7 +128,6 @@
               />
             </div>
           </div>
-
           <div class="flex gap-3 mt-8">
             <button
               type="button"
@@ -150,11 +136,10 @@
             >
               Cancel
             </button>
-
             <button
               type="submit"
               :disabled="skillStore.loading"
-              class="flex-1 py-3 rounded-xl bg-[#ff71b8] hover:bg-[#ff5daa] font-bold transition disabled:opacity-50"
+              class="flex-1 py-3 rounded-xl bg-[#ff71b8] hover:bg-[#ff5daa] font-bold text-black transition disabled:opacity-50"
             >
               {{ skillStore.loading ? 'Saving...' : 'Save' }}
             </button>
@@ -171,7 +156,6 @@ import { useSkillStore } from '../../skills/stores/skill.store';
 import type { Skill, SkillRequest } from '@/types/skill'
 
 const skillStore = useSkillStore()
-
 const isModalOpen = ref(false)
 const isEdit = ref(false)
 const isDropdownOpen = ref(false)
@@ -200,7 +184,6 @@ const currentCategoryLabel = computed(() => {
 const openModal = (skill: Skill | null = null) => {
   isEdit.value = !!skill
   currentId.value = skill?.id || null
-
   form.value = skill
     ? {
         profile_id: skill.profile_id,
@@ -218,7 +201,6 @@ const openModal = (skill: Skill | null = null) => {
         is_featured: false,
         sort_order: 0,
       }
-
   isModalOpen.value = true
 }
 
@@ -232,7 +214,6 @@ const handleSubmit = async () => {
     isEdit.value && currentId.value
       ? await skillStore.updateSkill(currentId.value, form.value)
       : await skillStore.createSkill(form.value)
-
     isModalOpen.value = false
   } catch (e) {
     alert(e)

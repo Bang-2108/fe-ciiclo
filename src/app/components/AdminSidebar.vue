@@ -43,7 +43,7 @@ const menuItems = [
   { name: 'Profile Info', path: '/admin/profile', icon: '👤' },
   { name: 'Skills List', path: '/admin/skills', icon: '⚡' },
   { name: 'Projects', path: '/admin/projects', icon: '📁' },
-  { name: 'Contact Messages', path: '/admin/messages', icon: '✉️' },
+  { name: 'Contacts', path: '/admin/contacts', icon: '✉️' },
 ];
 
 const handleLogout = async () => {
