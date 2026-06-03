@@ -2,7 +2,7 @@
   <div class="flex min-h-screen bg-[#0b1115] text-white font-sans">
     <AdminSidebar />
 
-    <main class="flex-1 ml-64 p-8">
+    <main class="flex-1 ml-64 p-8 pt-28">
       <AdminHeader />
 
       <router-view />
