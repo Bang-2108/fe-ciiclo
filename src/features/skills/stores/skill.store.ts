@@ -1,46 +1,65 @@
 import { defineStore } from 'pinia';
-
+import { ref } from 'vue';
 import {
   getSkillsApi,
   createSkillApi,
   updateSkillApi,
   deleteSkillApi,
 } from '../api/skill.api';
+import type { Skill } from '../types/skill.type';
 
-export const useSkillStore = defineStore('skill', {
-  state: () => ({
-    skills: [] as any[],
-    loading: false,
-  }),
+export const useSkillStore = defineStore('skill', () => {
+  const skills = ref<Skill[]>([]);
+  const loading = ref<boolean>(false);
 
-  actions: {
-    async fetchSkills() {
-      try {
-        this.loading = true;
-        const response = await getSkillsApi();
-        this.skills = response.data;
-      } finally {
-        this.loading = false;
-      }
-    },
+  const fetchSkills = async () => {
+    try {
+      loading.value = true;
+      const response = await getSkillsApi();
+      skills.value = response.data;
+    } finally {
+      loading.value = false;
+    }
+  };
 
-    async createSkill(payload: any) {
+  const createSkill = async (payload: any) => {
+    try {
+      loading.value = true;
       const response = await createSkillApi(payload);
-      this.skills.push(response.data);
-    },
+      skills.value.push(response.data);
+    } finally {
+      loading.value = false;
+    }
+  };
 
-    async updateSkill(id: number, payload: any) {
+  const updateSkill = async (id: number, payload: any) => {
+    try {
+      loading.value = true;
       const response = await updateSkillApi(id, payload);
-      this.skills = this.skills.map((skill) =>
+      skills.value = skills.value.map((skill) =>
         skill.id === id ? response.data : skill
       );
-    },
+    } finally {
+      loading.value = false;
+    }
+  };
 
-    async deleteSkill(id: number) {
+  const deleteSkill = async (id: number) => {
+    try {
+      loading.value = true;
       await deleteSkillApi(id);
-      this.skills = this.skills.filter(
-        (skill) => skill.id !== id
-      );
-    },
-  },
+      skills.value = skills.value.filter((skill) => skill.id !== id);
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  return {
+    skills,
+    loading,
+    fetchSkills,
+    createSkill,
+    updateSkill,
+    deleteSkill,
+  };
 });

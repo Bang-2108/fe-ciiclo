@@ -1,34 +1,36 @@
 import { defineStore } from 'pinia';
-import {
-  getProfileApi,
-  updateProfileApi,
-} from '../api/profile.api';
+import { ref } from 'vue';
+import { getProfileApi, updateProfileApi } from '../api/profile.api';
+import type { Profile } from '../types/profile.type';
 
-export const useProfileStore = defineStore('profile', {
-  state: () => ({
-    profile: null as any,
-    loading: false,
-  }),
+export const useProfileStore = defineStore('profile', () => {
+  const profile = ref<Profile | null>(null);
+  const loading = ref<boolean>(false);
 
-  actions: {
-    async fetchProfile() {
-      try {
-        this.loading = true;
-        const response = await getProfileApi();
-        this.profile = response.data;
-      } finally {
-        this.loading = false;
-      }
-    },
+  const fetchProfile = async () => {
+    try {
+      loading.value = true;
+      const response = await getProfileApi();
+      profile.value = response.data;
+    } finally {
+      loading.value = false;
+    }
+  };
 
-    async updateProfile(payload: any) {
-      try {
-        this.loading = true;
-        const response = await updateProfileApi(payload);
-        this.profile = response.data;
-      } finally {
-        this.loading = false;
-      }
-    },
-  },
+  const updateProfile = async (payload: FormData) => {
+    try {
+      loading.value = true;
+      const response = await updateProfileApi(payload);
+      profile.value = response.data;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  return {
+    profile,
+    loading,
+    fetchProfile,
+    updateProfile,
+  };
 });

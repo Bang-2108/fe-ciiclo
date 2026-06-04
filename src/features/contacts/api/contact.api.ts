@@ -1,15 +1,14 @@
-import axiosInstance from '@/shared/api/axios';
-
+import api from '@/shared/api/axios';
 export const contactApi = {
   getAll: async () => {
-    const response = await axiosInstance.get('/admin/contacts');
+    const response = await api.get('/admin/contacts');
     return response.data.data;
   },
   markAsRead: async (id: number) => {
-    const response = await axiosInstance.patch(`/admin/contacts/${id}/read`);
+    const response = await api.patch(`/admin/contacts/${id}/read`);
     return response.data.data;
   },
   delete: async (id: number) => {
-    await axiosInstance.delete(`/admin/contacts/${id}`);
+    await api.delete(`/admin/contacts/${id}`);
   }
 };
