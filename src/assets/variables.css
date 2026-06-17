@@ -1,0 +1,11 @@
+:root {
+  --color-bg: #000000;        
+  --color-primary: #ff71b8;  
+  --color-text: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.6);
+
+  --font-main: "Poppins", sans-serif;
+
+  --radius-lg: 30px;
+  --radius-md: 15px;
+}
