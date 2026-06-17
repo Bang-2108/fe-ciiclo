@@ -149,26 +149,22 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useSkillStore } from '../../skills/stores/skill.store';
-import type { Skill, SkillRequest } from '@/types/skill'
-
+import { useSkillStore } from '../../skills/stores/skill.store'
+import type { Skill } from '../types/skill.type'
 const skillStore = useSkillStore()
 const isModalOpen = ref(false)
 const isEdit = ref(false)
 const isDropdownOpen = ref(false)
 const currentId = ref<number | null>(null)
-
 const categories = [
   { label: 'Frontend', value: 'frontend' },
   { label: 'Backend', value: 'backend' },
   { label: 'Database', value: 'database' },
   { label: 'Tools', value: 'tools' },
-]
-
-const form = ref<SkillRequest>({
+] as const
+const form = ref<Omit<Skill, 'id'>>({
   profile_id: 1,
   name: '',
   percentage: 0,
@@ -176,11 +172,9 @@ const form = ref<SkillRequest>({
   is_featured: false,
   sort_order: 0,
 })
-
 const currentCategoryLabel = computed(() => {
   return categories.find(c => c.value === form.value.category)?.label || 'Frontend'
 })
-
 const openModal = (skill: Skill | null = null) => {
   isEdit.value = !!skill
   currentId.value = skill?.id || null
@@ -203,12 +197,10 @@ const openModal = (skill: Skill | null = null) => {
       }
   isModalOpen.value = true
 }
-
-const selectCategory = (val: string) => {
+const selectCategory = (val: 'frontend' | 'backend' | 'database' | 'tools') => {
   form.value.category = val
   isDropdownOpen.value = false
 }
-
 const handleSubmit = async () => {
   try {
     isEdit.value && currentId.value
@@ -219,7 +211,6 @@ const handleSubmit = async () => {
     alert(e)
   }
 }
-
 const handleDelete = async (id: number) => {
   if (window.confirm('Are you sure you want to delete this skill?')) {
     try {
@@ -229,18 +220,15 @@ const handleDelete = async (id: number) => {
     }
   }
 }
-
 const closeDropdown = (e: MouseEvent) => {
   if (!(e.target as Element).closest('.dropdown-container')) {
     isDropdownOpen.value = false
   }
 }
-
 onMounted(() => {
   skillStore.fetchSkills()
   window.addEventListener('click', closeDropdown)
 })
-
 onUnmounted(() => {
   window.removeEventListener('click', closeDropdown)
 })

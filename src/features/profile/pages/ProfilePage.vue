@@ -232,6 +232,7 @@ const handleCvChange = (e: Event) => {
 const handleSubmit = async () => {
   try {
     const data = new FormData()
+    data.append('_method', 'PUT')
     data.append('name', formData.name)
     data.append('role', formData.role)
     data.append('bio', formData.bio)
@@ -240,27 +241,24 @@ const handleSubmit = async () => {
     data.append('stats_experience', String(formData.stats_experience))
     data.append('stats_projects', String(formData.stats_projects))
     data.append('stats_internships', String(formData.stats_internships))
+    
     if (avatarFile.value) {
       data.append('avatar', avatarFile.value)
     }
     if (cvFile.value) {
       data.append('cv_file', cvFile.value)
     }
+    
     await profileStore.updateProfile(data)
     alert('Profile updated successfully!')
+    
     avatarFile.value = null
     cvFile.value = null
     previewAvatar.value = null
     await loadProfile()
   } catch (error: any) {
-    console.error('Submit Error:', error)
-    const backendErrors = error.response?.data?.errors
-    if (backendErrors) {
-      const errorMessages = Object.values(backendErrors).flat().join('\n')
-      alert(`Validation errors:\n${errorMessages}`)
-    } else {
-      alert(error.response?.data?.message || error.message || 'Something went wrong!')
-    }
+    const errorMessage = error.response?.data?.message || 'Failed to update profile!'
+    alert(errorMessage)
   }
 }
 </script>
